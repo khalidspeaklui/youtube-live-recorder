@@ -10,17 +10,23 @@ jobs:
     runs-on: ubuntu-latest  # Choose an Ubuntu server for this job
 
     steps:
+      # Checkout the repository to get all files in the correct path
       - name: Checkout code
-        uses: actions/checkout@v2  # Checks out your code
+        uses: actions/checkout@v2  # Checks out your repository
 
+      # Install necessary dependencies
       - name: Install dependencies
         run: |
           sudo apt update
           sudo apt install -y ffmpeg yt-dlp python3-pip
           pip3 install requests beautifulsoup4
 
-      - name: Run recording script
+      # Verify the location of script.py
+      - name: Verify script location
         run: |
-          echo "Listing files in the directory to verify the presence of script.py:"
-          ls -alh  # This will list all files in the directory and confirm if script.py is present
-          python3 script.py  # Ensure that script.py is in the root of the repository
+          echo "Listing files in the repository:"
+          ls -alh  # List the files in the current directory
+
+      # Run the Python script
+      - name: Run recording script
+        run: python3 script.py  # Run the Python script from the root directory
