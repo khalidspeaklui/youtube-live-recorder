@@ -2,22 +2,23 @@ name: YouTube Live Stream Recording
 
 on:
   schedule:
-    # This cron schedule will run every hour
-    - cron: '0 * * * *'  # Adjust the frequency if needed, every hour here
+    # This will run the workflow every hour at the start of the hour (00 minutes)
+    - cron: '0 * * * *'  # Cron syntax: Run at the top of every hour
+  workflow_dispatch:  # This allows you to run the workflow manually if needed
 
 jobs:
   record_live_stream:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu environment
-    
+    runs-on: ubuntu-latest  # Choose an Ubuntu server for this job
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y ffmpeg yt-dlp python3-pip
-        pip3 install requests beautifulsoup4
-    
-    - name: Run recording script
-      run: python3 script.py
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checks out your code
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y ffmpeg yt-dlp python3-pip
+          pip3 install requests beautifulsoup4
+
+      - name: Run recording script
+        run: python3 script.py  # Runs your Python script that checks for live streams and records them
