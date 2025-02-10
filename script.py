@@ -1,4 +1,3 @@
-
 import os
 import time
 import requests
@@ -55,10 +54,34 @@ def record_stream(live_url):
     try:
         # Run yt-dlp to record the stream
         process = subprocess.Popen(command)
+        print(f"Recording started and saved to: {output_filename}")
         return process, output_filename
     except Exception as e:
         print(f"⚠️ Error starting the recording process: {e}")
         return None, None
+
+def save_recordings():
+    """Save recordings to the repository (debugging step)."""
+    print("Saving recordings...")
+
+    # Check if the recordings folder exists
+    if os.path.exists(OUTPUT_DIR):
+        print(f"Checking for recordings in '{OUTPUT_DIR}' folder...")
+        files = os.listdir(OUTPUT_DIR)
+        if files:
+            print(f"Found recordings: {files}")
+        else:
+            print("No recordings found in the folder.")
+    else:
+        print(f"The directory '{OUTPUT_DIR}' does not exist.")
+
+    # Attempt to copy recordings to the root directory (if there are any)
+    try:
+        # Copy the files (if any)
+        os.system(f"cp -r {OUTPUT_DIR}/* .")
+        print(f"Recordings copied to the root directory.")
+    except Exception as e:
+        print(f"⚠️ Error copying recordings: {e}")
 
 def main():
     """Continuously check for a live stream and record when detected."""
@@ -78,6 +101,9 @@ def main():
                 recording_process.terminate()
                 recording_process = None
 
+        # Ensure the recordings are saved and committed after every loop
+        save_recordings()
+        
         time.sleep(CHECK_INTERVAL)
 
 if __name__ == "__main__":
