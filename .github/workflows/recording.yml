@@ -3,35 +3,42 @@ name: YouTube Live Stream Recording
 on:
   push:
     branches:
-      - main
+      - main  # Trigger on push to main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: at the correct path.
-
-2. **Update the job definition Checkout repository
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set up Python
-      uses: actions/setup**: If the script is located in a different directory-python@v2
+      uses: actions/setup-python@v2
       with:
-        python-version: '3, update the workflow file to reflect the correct path.
-
-Here is an example of how to check the current directory and ensure the correct path in the workflow:
-
-```yaml.x'
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps install -r requirements.txt
+        pip install -r requirements.txt
 
     - name: Run script
       run: python3 script.py
+
+    - name: Commit recordings to repository
+      run: |
+        git config --global user.email "your_email@example.com"
+        git config --global user.name "Your Name"
+        
+        # Copy the recordings to the root directory (if needed)
+        cp -r recordings/* .
+
+        # Stage the new recordings
+        git add .
+
+        # Commit and push the recordings
+        git commit -m "Add new recordings"
+        git push origin main  # You can push to a different branch if preferred
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub's token to commit
