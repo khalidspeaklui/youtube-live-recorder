@@ -25,20 +25,22 @@ jobs:
 
     - name: Run script
       run: python3 script.py
+      continue-on-error: true  # Continue even if the script fails
 
-    - name: Commit recordings to repository
+    - name: Save recordings (Always runs)
+      if: always()  # This ensures it runs no matter what
       run: |
+        echo "Saving recordings..."
+        
+        # Ensure recordings are copied to the root directory
+        cp -r recordings/* .
+
+        # Add and commit any new recordings to the repository
         git config --global user.email "your_email@example.com"
         git config --global user.name "Your Name"
         
-        # Copy the recordings to the root directory (if needed)
-        cp -r recordings/* .
-
-        # Stage the new recordings
         git add .
-
-        # Commit and push the recordings
-        git commit -m "Add new recordings"
-        git push origin main  # You can push to a different branch if preferred
+        git commit -m "Add new recordings" || echo "No recordings to commit"
+        git push origin main || echo "No changes to push"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub's token to commit
