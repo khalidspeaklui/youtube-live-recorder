@@ -1,32 +1,37 @@
 name: YouTube Live Stream Recording
 
 on:
-  schedule:
-    - cron: '0 * * * *'  # Runs every hour at the top of the hour
-  workflow_dispatch:  # Allows you to run the workflow manually if needed
+  push:
+    branches:
+      - main
 
 jobs:
-  record_live_stream:
-    runs-on: ubuntu-latest  # Choose an Ubuntu server for this job
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository to get all files in the correct path
-      - name: Checkout code
-        uses: actions/checkout@v2  # Checks out your repository
+    - name: at the correct path.
 
-      # Install necessary dependencies
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y ffmpeg yt-dlp python3-pip
-          pip3 install requests beautifulsoup4
+2. **Update the job definition Checkout repository
+      uses: actions/checkout@v2
 
-      # Verify the location of script.py
-      - name: Verify script location
-        run: |
-          echo "Listing files in the repository:"
-          ls -alh  # List the files in the current directory
+    - name: Set up Python
+      uses: actions/setup**: If the script is located in a different directory-python@v2
+      with:
+        python-version: '3, update the workflow file to reflect the correct path.
 
-      # Run the Python script
-      - name: Run recording script
-        run: python3 script.py  # Run the Python script from the root directory
+Here is an example of how to check the current directory and ensure the correct path in the workflow:
+
+```yaml.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps install -r requirements.txt
+
+    - name: Run script
+      run: python3 script.py
