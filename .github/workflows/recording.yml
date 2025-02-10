@@ -2,9 +2,8 @@ name: YouTube Live Stream Recording
 
 on:
   schedule:
-    # This will run the workflow every hour at the start of the hour (00 minutes)
-    - cron: '0 * * * *'  # Cron syntax: Run at the top of every hour
-  workflow_dispatch:  # This allows you to run the workflow manually if needed
+    - cron: '0 * * * *'  # Runs every hour at the top of the hour
+  workflow_dispatch:  # Allows you to run the workflow manually if needed
 
 jobs:
   record_live_stream:
@@ -21,4 +20,7 @@ jobs:
           pip3 install requests beautifulsoup4
 
       - name: Run recording script
-        run: python3 script.py  # Runs your Python script that checks for live streams and records them
+        run: |
+          echo "Listing files in the directory to verify the presence of script.py:"
+          ls -alh  # This will list all files in the directory and confirm if script.py is present
+          python3 script.py  # Ensure that script.py is in the root of the repository
